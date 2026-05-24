@@ -34,7 +34,7 @@ function Download() {
     if (url.trim()) setDownloading(true);
   };
 
-  const modes: { key: FetchMode; label: string; icon: React.ReactNode }[] = [
+  const modes: { key: FetchMode; label: string; icon: ReactNode }[] = [
     { key: "auto", label: "Auto", icon: <Wand2 className="size-4" strokeWidth={2.5} /> },
     { key: "audio", label: "Audio", icon: <Music className="size-4" strokeWidth={2.5} /> },
     { key: "mute", label: "Mute", icon: <VolumeX className="size-4" strokeWidth={2.5} /> },
