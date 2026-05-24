@@ -78,6 +78,26 @@ function SettingsPage() {
   const [bitrate, setBitrate] = useState(256);
   const [audioFormat, setAudioFormat] = useState("MP3");
   const [embedMeta, setEmbedMeta] = useState(true);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "system";
+    return (localStorage.getItem("fetch-theme") as Theme) || "system";
+  });
+
+  useEffect(() => {
+    applyTheme(theme);
+    localStorage.setItem("fetch-theme", theme);
+    if (theme !== "system") return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => applyTheme("system");
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [theme]);
+
+  const themes: { key: Theme; label: string; icon: typeof Sun }[] = [
+    { key: "light", label: "Light", icon: Sun },
+    { key: "dark", label: "Dark", icon: Moon },
+    { key: "system", label: "Auto", icon: Monitor },
+  ];
 
   return (
     <AppShell>
