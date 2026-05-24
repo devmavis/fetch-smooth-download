@@ -113,6 +113,8 @@
   .pop-shadow { box-shadow: var(--shadow-pop); }
   .pop-shadow-sm { box-shadow: var(--shadow-pop-sm); }
   .pop-shadow-lg { box-shadow: var(--shadow-pop-lg); }
+  /* Text color that stays dark on bright pop accent backgrounds, regardless of theme */
+  .text-ink-fixed { color: oklch(0.18 0.01 270); }
   .pop-press {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
