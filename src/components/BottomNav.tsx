@@ -20,7 +20,7 @@ export function BottomNav() {
               to={to}
               className={`flex-1 flex items-center justify-center gap-2 rounded-xl py-3 pop-border pop-press font-semibold text-sm ${
                 active
-                  ? "bg-pop-yellow pop-shadow-sm"
+                  ? "bg-pop-yellow text-ink-fixed pop-shadow-sm"
                   : "bg-card text-muted-foreground"
               }`}
             >

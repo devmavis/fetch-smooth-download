@@ -60,7 +60,7 @@ function Download() {
           />
           <button
             onClick={handlePaste}
-            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 bg-pop-cyan pop-border rounded-lg px-3 py-1.5 text-xs font-semibold pop-press"
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 bg-pop-cyan text-ink-fixed pop-border rounded-lg px-3 py-1.5 text-xs font-semibold pop-press"
           >
             <ClipboardPaste className="size-3.5" strokeWidth={2.5} />
             Paste
@@ -80,7 +80,7 @@ function Download() {
                   onClick={() => setMode(m.key)}
                   className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
                     active
-                      ? "bg-pop-yellow pop-border"
+                      ? "bg-pop-yellow text-ink-fixed pop-border"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -94,7 +94,7 @@ function Download() {
 
         <button
           onClick={handleFetch}
-          className="w-full bg-pop-yellow text-foreground py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2 animate-fade-in-up stagger-3"
+          className="w-full bg-pop-yellow text-ink-fixed py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2 animate-fade-in-up stagger-3"
         >
           <DownloadIcon className="size-5" strokeWidth={2.5} />
           Fetch media

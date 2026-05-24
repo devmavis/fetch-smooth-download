@@ -116,7 +116,7 @@ function SettingsPage() {
             <select
               value={resolution}
               onChange={(e) => setResolution(e.target.value)}
-              className="bg-pop-yellow pop-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none"
+              className="bg-pop-yellow text-ink-fixed pop-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none"
             >
               <option>2160p</option>
               <option>1440p</option>
@@ -194,7 +194,7 @@ function SettingsPage() {
                     onClick={() => setTheme(t.key)}
                     className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold transition-all duration-200 ${
                       active
-                        ? "bg-pop-yellow pop-border"
+                        ? "bg-pop-yellow text-ink-fixed pop-border"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
