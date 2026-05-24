@@ -179,6 +179,38 @@ function SettingsPage() {
           </Row>
         </SectionCard>
         </div>
+
+        <div className="animate-fade-in-up stagger-3">
+        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow">
+          <div className="py-3 space-y-3">
+            <span className="text-sm font-medium">Theme</span>
+            <div className="flex items-center gap-1 bg-muted pop-border rounded-lg p-1">
+              {themes.map((t) => {
+                const active = theme === t.key;
+                const Icon = t.icon;
+                return (
+                  <button
+                    key={t.key}
+                    onClick={() => setTheme(t.key)}
+                    className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                      active
+                        ? "bg-pop-yellow pop-border"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="size-3.5" strokeWidth={2.5} />
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <Row>
+            <span className="text-sm font-medium">Version</span>
+            <span className="text-xs font-semibold text-muted-foreground">v{APP_VERSION}</span>
+          </Row>
+        </SectionCard>
+        </div>
       </div>
     </AppShell>
   );
