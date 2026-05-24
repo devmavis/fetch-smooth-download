@@ -147,6 +147,7 @@ function SettingsPage() {
             <Toggle on={embedMeta} onChange={setEmbedMeta} />
           </Row>
         </SectionCard>
+        </div>
       </div>
     </AppShell>
   );
