@@ -35,9 +35,9 @@ function Download() {
   };
 
   const modes: { key: FetchMode; label: string; icon: ReactNode }[] = [
-    { key: "auto", label: "Auto", icon: <Wand2 className="size-4" strokeWidth={2.5} /> },
-    { key: "audio", label: "Audio", icon: <Music className="size-4" strokeWidth={2.5} /> },
-    { key: "mute", label: "Mute", icon: <VolumeX className="size-4" strokeWidth={2.5} /> },
+    { key: "auto", label: "Auto", icon: <Wand2 className="size-3.5" strokeWidth={2.5} /> },
+    { key: "audio", label: "Audio", icon: <Music className="size-3.5" strokeWidth={2.5} /> },
+    { key: "mute", label: "Mute", icon: <VolumeX className="size-3.5" strokeWidth={2.5} /> },
   ];
 
   return (
