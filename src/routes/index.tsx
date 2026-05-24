@@ -1,26 +1,80 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { ClipboardPaste, Download as DownloadIcon } from "lucide-react";
+import { AppShell } from "@/components/AppShell";
+import { DownloadProgress } from "@/components/DownloadProgress";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Fetch — Download videos and audio" },
+      { name: "description", content: "Paste a link, fetch the media. Simple, smooth, and friendly." },
+    ],
+  }),
+  component: Download,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+function Download() {
+  const [url, setUrl] = useState("");
+  const [downloading, setDownloading] = useState(false);
 
-function Index() {
-  return <PlaceholderIndex />;
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setUrl(text);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
+
+  const handleFetch = () => {
+    if (url.trim()) setDownloading(true);
+  };
+
+  return (
+    <AppShell>
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight">Fetch</h1>
+        <p className="text-muted-foreground text-sm mt-1">
+          Paste a link to grab the video or audio.
+        </p>
+      </header>
+
+      <section className="space-y-4">
+        <div className="relative">
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            type="text"
+            placeholder="https://..."
+            className="w-full bg-card pop-border pop-shadow-sm rounded-xl py-4 pl-4 pr-24 text-sm focus:outline-none placeholder:text-muted-foreground"
+          />
+          <button
+            onClick={handlePaste}
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 bg-pop-cyan pop-border rounded-lg px-3 py-1.5 text-xs font-semibold pop-press"
+          >
+            <ClipboardPaste className="size-3.5" strokeWidth={2.5} />
+            Paste
+          </button>
+        </div>
+
+        <button
+          onClick={handleFetch}
+          className="w-full bg-pop-yellow text-foreground py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2"
+        >
+          <DownloadIcon className="size-5" strokeWidth={2.5} />
+          Fetch media
+        </button>
+      </section>
+
+      {downloading && (
+        <section className="mt-8">
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+            In progress
+          </h2>
+          <DownloadProgress url={url} onCancel={() => setDownloading(false)} />
+        </section>
+      )}
+    </AppShell>
+  );
 }
