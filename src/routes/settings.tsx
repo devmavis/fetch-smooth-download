@@ -116,7 +116,7 @@ function SettingsPage() {
             <select
               value={resolution}
               onChange={(e) => setResolution(e.target.value)}
-              className="bg-pop-yellow pop-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none"
+              className="bg-pop-yellow text-ink-fixed pop-border rounded-lg px-2 py-1 text-xs font-semibold focus:outline-none"
             >
               <option>2160p</option>
               <option>1440p</option>
@@ -139,7 +139,7 @@ function SettingsPage() {
         </div>
 
         <div className="animate-fade-in-up stagger-2">
-        <SectionCard icon={Music} title="Audio" accent="bg-pop-cyan">
+        <SectionCard icon={Music} title="Audio" accent="bg-pop-cyan text-ink-fixed">
           <div className="py-3 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="font-medium">Bitrate</span>
@@ -181,7 +181,7 @@ function SettingsPage() {
         </div>
 
         <div className="animate-fade-in-up stagger-3">
-        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow">
+        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow text-ink-fixed">
           <div className="py-3 space-y-3">
             <span className="text-sm font-medium">Theme</span>
             <div className="flex items-center gap-1 bg-muted pop-border rounded-lg p-1">
@@ -194,7 +194,7 @@ function SettingsPage() {
                     onClick={() => setTheme(t.key)}
                     className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold transition-all duration-200 ${
                       active
-                        ? "bg-pop-yellow pop-border"
+                        ? "bg-pop-yellow text-ink-fixed pop-border"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
