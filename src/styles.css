@@ -71,11 +71,18 @@
 }
 
 .dark {
-  --background: oklch(0.18 0.01 270);
+  --pop-ink: oklch(0.96 0.01 95);
+  --background: oklch(0.16 0.01 270);
   --foreground: var(--pop-cream);
-  --card: oklch(0.22 0.01 270);
+  --card: oklch(0.23 0.01 270);
   --card-foreground: var(--pop-cream);
+  --popover: oklch(0.23 0.01 270);
+  --popover-foreground: var(--pop-cream);
+  --muted: oklch(0.30 0.01 270);
+  --muted-foreground: oklch(0.72 0.01 270);
+  --input: oklch(0.28 0.01 270);
   --border: var(--pop-cream);
+  --ring: var(--pop-cream);
 }
 
 @keyframes shimmer {
