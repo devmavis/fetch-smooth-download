@@ -42,7 +42,7 @@ function Download() {
 
   return (
     <AppShell>
-      <header className="mb-8">
+      <header className="mb-8 animate-fade-in-up">
         <h1 className="text-4xl font-bold tracking-tight">Fetch</h1>
         <p className="text-muted-foreground text-sm mt-1">
           Paste a link to grab the video or audio.
@@ -50,7 +50,7 @@ function Download() {
       </header>
 
       <section className="space-y-5">
-        <div className="relative">
+        <div className="relative animate-fade-in-up stagger-1">
           <input
             value={url}
             onChange={(e) => setUrl(e.target.value)}
@@ -67,22 +67,22 @@ function Download() {
           </button>
         </div>
 
-        <div className="space-y-2">
+        <div className="flex items-center justify-between animate-fade-in-up stagger-2">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             Mode
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 bg-card pop-border rounded-lg p-1 pop-shadow-sm">
             {modes.map((m) => {
               const active = mode === m.key;
               return (
                 <button
                   key={m.key}
                   onClick={() => setMode(m.key)}
-                  className={`flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold pop-border transition-all duration-200 ${
+                  className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
                     active
-                      ? "bg-pop-yellow pop-shadow-sm"
-                      : "bg-card pop-shadow-sm hover:bg-muted"
-                  } pop-press`}
+                      ? "bg-pop-yellow pop-border"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
                   {m.icon}
                   {m.label}
@@ -94,7 +94,7 @@ function Download() {
 
         <button
           onClick={handleFetch}
-          className="w-full bg-pop-yellow text-foreground py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2"
+          className="w-full bg-pop-yellow text-foreground py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2 animate-fade-in-up stagger-3"
         >
           <DownloadIcon className="size-5" strokeWidth={2.5} />
           Fetch media
@@ -102,7 +102,7 @@ function Download() {
       </section>
 
       {downloading && (
-        <section className="mt-8">
+        <section className="mt-8 animate-pop-in">
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
             In progress
           </h2>
