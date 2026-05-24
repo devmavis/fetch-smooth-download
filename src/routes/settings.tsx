@@ -139,7 +139,7 @@ function SettingsPage() {
         </div>
 
         <div className="animate-fade-in-up stagger-2">
-        <SectionCard icon={Music} title="Audio" accent="bg-pop-cyan">
+        <SectionCard icon={Music} title="Audio" accent="bg-pop-cyan text-ink-fixed">
           <div className="py-3 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="font-medium">Bitrate</span>
@@ -181,7 +181,7 @@ function SettingsPage() {
         </div>
 
         <div className="animate-fade-in-up stagger-3">
-        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow">
+        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow text-ink-fixed">
           <div className="py-3 space-y-3">
             <span className="text-sm font-medium">Theme</span>
             <div className="flex items-center gap-1 bg-muted pop-border rounded-lg p-1">
