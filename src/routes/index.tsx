@@ -14,9 +14,12 @@ export const Route = createFileRoute("/")({
   component: Download,
 });
 
+type FetchMode = "auto" | "audio" | "mute";
+
 function Download() {
   const [url, setUrl] = useState("");
   const [downloading, setDownloading] = useState(false);
+  const [mode, setMode] = useState<FetchMode>("auto");
 
   const handlePaste = async () => {
     try {
@@ -31,6 +34,12 @@ function Download() {
     if (url.trim()) setDownloading(true);
   };
 
+  const modes: { key: FetchMode; label: string; icon: React.ReactNode }[] = [
+    { key: "auto", label: "Auto", icon: <Wand2 className="size-4" strokeWidth={2.5} /> },
+    { key: "audio", label: "Audio", icon: <Music className="size-4" strokeWidth={2.5} /> },
+    { key: "mute", label: "Mute", icon: <VolumeX className="size-4" strokeWidth={2.5} /> },
+  ];
+
   return (
     <AppShell>
       <header className="mb-8">
@@ -40,7 +49,7 @@ function Download() {
         </p>
       </header>
 
-      <section className="space-y-4">
+      <section className="space-y-5">
         <div className="relative">
           <input
             value={url}
@@ -56,6 +65,31 @@ function Download() {
             <ClipboardPaste className="size-3.5" strokeWidth={2.5} />
             Paste
           </button>
+        </div>
+
+        <div className="space-y-2">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            Mode
+          </span>
+          <div className="flex items-center gap-2">
+            {modes.map((m) => {
+              const active = mode === m.key;
+              return (
+                <button
+                  key={m.key}
+                  onClick={() => setMode(m.key)}
+                  className={`flex-1 flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold pop-border transition-all duration-200 ${
+                    active
+                      ? "bg-pop-yellow pop-shadow-sm"
+                      : "bg-card pop-shadow-sm hover:bg-muted"
+                  } pop-press`}
+                >
+                  {m.icon}
+                  {m.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <button
