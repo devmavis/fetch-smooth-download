@@ -70,7 +70,7 @@ function SettingsPage() {
 
   return (
     <AppShell>
-      <header className="mb-8">
+      <header className="mb-8 animate-fade-in-up">
         <h1 className="text-4xl font-bold tracking-tight">Settings</h1>
         <p className="text-muted-foreground text-sm mt-1">
           Tune how Fetch grabs your media.
@@ -78,6 +78,7 @@ function SettingsPage() {
       </header>
 
       <div className="space-y-6">
+        <div className="animate-fade-in-up stagger-1">
         <SectionCard icon={Video} title="Video" accent="bg-pop-pink text-white">
           <Row>
             <span className="text-sm font-medium">Resolution</span>
