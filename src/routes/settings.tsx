@@ -1,7 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Video, Music } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Video, Music, Palette, Sun, Moon, Monitor } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+
+type Theme = "light" | "dark" | "system";
+const APP_VERSION = "1.0.0";
+
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  root.classList.toggle("dark", isDark);
+}
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
