@@ -1,7 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Video, Music } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Video, Music, Palette, Sun, Moon, Monitor } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+
+type Theme = "light" | "dark" | "system";
+const APP_VERSION = "1.0.0";
+
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  root.classList.toggle("dark", isDark);
+}
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -67,6 +78,26 @@ function SettingsPage() {
   const [bitrate, setBitrate] = useState(256);
   const [audioFormat, setAudioFormat] = useState("MP3");
   const [embedMeta, setEmbedMeta] = useState(true);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "system";
+    return (localStorage.getItem("fetch-theme") as Theme) || "system";
+  });
+
+  useEffect(() => {
+    applyTheme(theme);
+    localStorage.setItem("fetch-theme", theme);
+    if (theme !== "system") return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => applyTheme("system");
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [theme]);
+
+  const themes: { key: Theme; label: string; icon: typeof Sun }[] = [
+    { key: "light", label: "Light", icon: Sun },
+    { key: "dark", label: "Dark", icon: Moon },
+    { key: "system", label: "Auto", icon: Monitor },
+  ];
 
   return (
     <AppShell>
@@ -145,6 +176,38 @@ function SettingsPage() {
           <Row>
             <span className="text-sm font-medium">Embed metadata</span>
             <Toggle on={embedMeta} onChange={setEmbedMeta} />
+          </Row>
+        </SectionCard>
+        </div>
+
+        <div className="animate-fade-in-up stagger-3">
+        <SectionCard icon={Palette} title="App" accent="bg-pop-yellow">
+          <div className="py-3 space-y-3">
+            <span className="text-sm font-medium">Theme</span>
+            <div className="flex items-center gap-1 bg-muted pop-border rounded-lg p-1">
+              {themes.map((t) => {
+                const active = theme === t.key;
+                const Icon = t.icon;
+                return (
+                  <button
+                    key={t.key}
+                    onClick={() => setTheme(t.key)}
+                    className={`flex-1 flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                      active
+                        ? "bg-pop-yellow pop-border"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="size-3.5" strokeWidth={2.5} />
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <Row>
+            <span className="text-sm font-medium">Version</span>
+            <span className="text-xs font-semibold text-muted-foreground">v{APP_VERSION}</span>
           </Row>
         </SectionCard>
         </div>
