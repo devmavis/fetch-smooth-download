@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ClipboardPaste, Download as DownloadIcon } from "lucide-react";
+import { ClipboardPaste, Download as DownloadIcon, Wand2, Music, VolumeX } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { DownloadProgress } from "@/components/DownloadProgress";
 
