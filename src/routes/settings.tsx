@@ -105,7 +105,9 @@ function SettingsPage() {
             <Toggle on={hwAccel} onChange={setHwAccel} />
           </Row>
         </SectionCard>
+        </div>
 
+        <div className="animate-fade-in-up stagger-2">
         <SectionCard icon={Music} title="Audio" accent="bg-pop-cyan">
           <div className="py-3 space-y-3">
             <div className="flex justify-between text-sm">
