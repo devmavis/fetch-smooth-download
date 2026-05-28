@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
-import { ClipboardPaste, Download as DownloadIcon, Wand2, Music, VolumeX } from "lucide-react";
+import { useState } from "react";
+import { ClipboardPaste, Download as DownloadIcon, Search, Film, Music, Check } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { DownloadProgress } from "@/components/DownloadProgress";
 
@@ -8,18 +8,32 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Fetch — Download videos and audio" },
-      { name: "description", content: "Paste a link, fetch the media. Simple, smooth, and friendly." },
+      { name: "description", content: "Paste a link, pick a quality, fetch the media." },
     ],
   }),
   component: Download,
 });
 
-type FetchMode = "auto" | "audio" | "mute";
+type Step = "input" | "select" | "downloading";
+
+type Quality = {
+  key: string;
+  label: string;
+  meta: string;
+  kind: "video" | "audio";
+};
+
+const QUALITIES: Quality[] = [
+  { key: "1080p", label: "1080p", meta: "MP4 · ~85 MB", kind: "video" },
+  { key: "720p", label: "720p", meta: "MP4 · ~48 MB", kind: "video" },
+  { key: "480p", label: "480p", meta: "MP4 · ~22 MB", kind: "video" },
+  { key: "audio", label: "Audio only", meta: "MP3 · ~4 MB", kind: "audio" },
+];
 
 function Download() {
   const [url, setUrl] = useState("");
-  const [downloading, setDownloading] = useState(false);
-  const [mode, setMode] = useState<FetchMode>("auto");
+  const [step, setStep] = useState<Step>("input");
+  const [selected, setSelected] = useState<string>("720p");
 
   const handlePaste = async () => {
     try {
@@ -30,15 +44,15 @@ function Download() {
     }
   };
 
-  const handleFetch = () => {
-    if (url.trim()) setDownloading(true);
+  const handleAnalyze = () => {
+    if (url.trim()) setStep("select");
   };
 
-  const modes: { key: FetchMode; label: string; icon: ReactNode }[] = [
-    { key: "auto", label: "Auto", icon: <Wand2 className="size-3.5" strokeWidth={2.5} /> },
-    { key: "audio", label: "Audio", icon: <Music className="size-3.5" strokeWidth={2.5} /> },
-    { key: "mute", label: "Mute", icon: <VolumeX className="size-3.5" strokeWidth={2.5} /> },
-  ];
+  const handleDownload = () => setStep("downloading");
+
+  const reset = () => {
+    setStep("input");
+  };
 
   return (
     <AppShell>
@@ -67,46 +81,102 @@ function Download() {
           </button>
         </div>
 
-        <div className="flex items-center justify-between animate-fade-in-up stagger-2">
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            Mode
-          </span>
-          <div className="flex items-center gap-1 bg-card pop-border rounded-lg p-1 pop-shadow-sm">
-            {modes.map((m) => {
-              const active = mode === m.key;
-              return (
-                <button
-                  key={m.key}
-                  onClick={() => setMode(m.key)}
-                  className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
-                    active
-                      ? "bg-pop-yellow text-ink-fixed pop-border"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {m.icon}
-                  {m.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <button
-          onClick={handleFetch}
-          className="w-full bg-pop-yellow text-ink-fixed py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2 animate-fade-in-up stagger-3"
-        >
-          <DownloadIcon className="size-5" strokeWidth={2.5} />
-          Fetch media
-        </button>
+        {step === "input" && (
+          <button
+            onClick={handleAnalyze}
+            className="w-full bg-pop-yellow text-ink-fixed py-4 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2 animate-fade-in-up stagger-2"
+          >
+            <Search className="size-5" strokeWidth={2.5} />
+            Fetch media
+          </button>
+        )}
       </section>
 
-      {downloading && (
+      {step === "select" && (
+        <section className="mt-8 animate-pop-in space-y-4">
+          {/* Preview card */}
+          <div className="bg-card pop-border pop-shadow rounded-2xl p-4 flex gap-3 items-center">
+            <div className="size-14 rounded-xl bg-pop-cyan/40 pop-border flex items-center justify-center shrink-0">
+              <Film className="size-6" strokeWidth={2.5} />
+            </div>
+            <div className="min-w-0">
+              <h3 className="font-semibold leading-snug truncate">
+                Late Night Lo-Fi Beats — Study Mix
+              </h3>
+              <p className="text-xs text-muted-foreground truncate">{url}</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+              Choose quality
+            </h2>
+            <div className="space-y-2">
+              {QUALITIES.map((q, i) => {
+                const active = selected === q.key;
+                return (
+                  <button
+                    key={q.key}
+                    onClick={() => setSelected(q.key)}
+                    style={{ animationDelay: `${0.05 * (i + 1)}s` }}
+                    className={`animate-fade-in-up w-full flex items-center gap-3 rounded-xl pop-border px-3 py-3 text-left transition-colors ${
+                      active
+                        ? "bg-pop-yellow text-ink-fixed pop-shadow-sm"
+                        : "bg-card pop-shadow-sm"
+                    }`}
+                  >
+                    <div className="size-9 rounded-lg bg-background/60 pop-border flex items-center justify-center shrink-0">
+                      {q.kind === "audio" ? (
+                        <Music className="size-4" strokeWidth={2.5} />
+                      ) : (
+                        <Film className="size-4" strokeWidth={2.5} />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold">{q.label}</div>
+                      <div className={`text-xs ${active ? "opacity-70" : "text-muted-foreground"}`}>
+                        {q.meta}
+                      </div>
+                    </div>
+                    {active && (
+                      <div className="size-6 rounded-full bg-foreground text-background flex items-center justify-center">
+                        <Check className="size-3.5" strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-[auto_1fr] gap-2 pt-1">
+            <button
+              onClick={reset}
+              className="bg-card px-4 py-3 rounded-xl pop-border pop-shadow-sm pop-press font-semibold text-sm"
+            >
+              Back
+            </button>
+            <button
+              onClick={handleDownload}
+              className="bg-pop-yellow text-ink-fixed py-3 rounded-xl pop-border pop-shadow pop-press font-semibold flex items-center justify-center gap-2"
+            >
+              <DownloadIcon className="size-5" strokeWidth={2.5} />
+              Download
+            </button>
+          </div>
+        </section>
+      )}
+
+      {step === "downloading" && (
         <section className="mt-8 animate-pop-in">
           <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
             In progress
           </h2>
-          <DownloadProgress url={url} onCancel={() => setDownloading(false)} />
+          <DownloadProgress
+            url={url}
+            quality={selected}
+            onCancel={reset}
+          />
         </section>
       )}
     </AppShell>
