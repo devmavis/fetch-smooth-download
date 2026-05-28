@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Paste a link, pick a quality, fetch the media." },
     ],
   }),
-  component: Download;
+  component: Download,
 });
 
 type Step = "input" | "select" | "downloading";
